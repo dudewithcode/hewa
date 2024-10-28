@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hewa</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <div class="sidebar grey">
+      <div class="top">
+        <div class="logo">
+          <img
+            src="../static/images/umbrella.png"
+            alt="logo"
+            class="logo-img"
+          />
+          <span>Hewa</span>
+        </div>
+        <i class="bx bx-menu" id="btn"></i>
+      </div>
+      <ul>
+        <li>
+          <a href="#">
+            <i class="bx bx-cloud-light-rain"></i>
+            <span class="nav-item">Weather</span>
+          </a>
+          <span class="tooltip">Weather</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-buildings"></i>
+            <span class="nav-item">Cities</span>
+          </a>
+          <span class="tooltip">Cities</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-map-pin"></i>
+            <span class="nav-item">Map</span>
+          </a>
+          <span class="tooltip">Map</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-cog"></i>
+            <span class="nav-item">Settings</span>
+          </a>
+          <span class="tooltip">Settings</span>
+        </li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <div class="container">
+        <div class="middle">
+          <div class="search-city">
+            <form id="city-form">
+              <input
+                class="grey"
+                type="search"
+                name="city"
+                placeholder="Search for cities"
+              />
+            </form>
+          </div>
+          <div class="current">
+            <div class="summary">
+              <div>
+                <h1>{{ location.name }}</h1>
+                <p>Chances of rain: {{ today[0].chance_of_rain }}%</p>
+              </div>
+              <div>
+                <h1>{{ current.temp_c }}</h1>
+              </div>
+            </div>
+            <div>
+              <img src="{{ current.condition.icon }}" />
+            </div>
+          </div>
+          <div class="today grey">
+            <p>TODAY'S FORECAST</p>
+            <div class="hour">
+              {% for hour in today: %}
+              <div class="time">
+                <p>{{ hour.time }}</p>
+                <img src="{{hour.icon }}" />
+                <p>{{ hour.temp_c }}</p>
+              </div>
+              <div class="left"></div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="air grey">
+            <p>AIR CONDITIONS</p>
+            <a
+              class="more-btn"
+              href="{{ url_for('see_more', city=location.name) }}"
+              >See more</a
+            >
+            <div class="detail">
+              <div>
+                <i class="bx bxs-droplet"></i>
+                <span>Real Feel</span>
+                <p>{{ current.feelslike_c }}</p>
+              </div>
+              <div>
+                <i class="bx bx-wind"></i>
+                <span>Wind</span>
+                <p>{{ current.wind_kph }} km/h</p>
+              </div>
+              <div>
+                <i class="bx bxs-droplet"></i>
+                <span>Chance of rain</span>
+                <p>{{ today[0].chance_of_rain }}%</p>
+              </div>
+              <div>
+                <i class="bx bx-wind"></i>
+                <span>UV Index</span>
+                <p>{{ current.uv }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="seven grey">
+            <p>7-DAY FORECAST</p>
+            <div class="forecast">
+              {% for day in week: %}
+              <div class="day">
+                <p>{{ day.day }}</p>
+                <div>
+                  <img src="{{ day.icon }}" />
+                  <span>{{ day.text }}</span>
+                </div>
+                <p>{{ day.maxtemp_c }}/{{ day.mintemp_c }}</p>
+              </div>
+              <div class="bottom"></div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="../static/js/script.js"></script>
+</html>
