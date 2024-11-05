@@ -67,6 +67,18 @@
               />
             </form>
           </div>
+          {% if error %}
+          <!-- Background Overlay for Blurring -->
+          <div class="overlay" id="overlay"></div>
+          <!-- Cute Custom Alert Popover -->
+          <div class="popover-alert" id="errorPopover">
+            <div class="popover-content">
+              <h3>Oops! Something went wrong.</h3>
+              <p>{{ error }}</p>
+              <button onclick="closePopover()">Okay</button>
+            </div>
+          </div>
+          {% endif %}
           <div class="current">
             <div class="summary">
               <div>
@@ -74,7 +86,7 @@
                 <p>Chances of rain: {{ today[0].chance_of_rain }}%</p>
               </div>
               <div>
-                <h1>{{ current.temp_c }}</h1>
+                <h1>{{ current.temp_c | round | int }}&deg;</h1>
               </div>
             </div>
             <div>
@@ -88,7 +100,7 @@
               <div class="time">
                 <p>{{ hour.time }}</p>
                 <img src="{{hour.icon }}" />
-                <p>{{ hour.temp_c }}</p>
+                <p>{{ hour.temp_c }}&deg;</p>
               </div>
               <div class="left"></div>
               {% endfor %}
@@ -105,7 +117,7 @@
               <div>
                 <i class="bx bxs-droplet"></i>
                 <span>Real Feel</span>
-                <p>{{ current.feelslike_c }}</p>
+                <p>{{ current.feelslike_c | round | int }}&deg;</p>
               </div>
               <div>
                 <i class="bx bx-wind"></i>
@@ -120,7 +132,7 @@
               <div>
                 <i class="bx bx-wind"></i>
                 <span>UV Index</span>
-                <p>{{ current.uv }}</p>
+                <p>{{ current.uv | round | int }}</p>
               </div>
             </div>
           </div>
@@ -131,7 +143,11 @@
             <div class="forecast">
               {% for day in week: %}
               <div class="day">
+                {% if day.day != "Today" %}
+                <p>{{ day.day[:3] }}</p>
+                {% else %}
                 <p>{{ day.day }}</p>
+                {% endif %}
                 <div>
                   <img src="{{ day.icon }}" />
                   <span>{{ day.text }}</span>
